@@ -12,7 +12,8 @@ libraryDependencies ++= Seq (
   javaJdbc,
   "org.hibernate" % "hibernate-core" % "5.4.0.Final",
   javaWs % "test",
-  "mysql" % "mysql-connector-java" % "5.1.36"
+  "mysql" % "mysql-connector-java" % "5.1.36",
+  "org.projectlombok" % "lombok" % "1.16.10" % "provided"
 )
 
 libraryDependencies += "org.awaitility" % "awaitility" % "3.1.5" % "test"
