@@ -4,7 +4,8 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.4"
+crossScalaVersions := Seq("2.11.12")
 
 libraryDependencies ++= Seq (
   guice,
@@ -25,4 +26,5 @@ Test / testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-v")
 ThisBuild / scalacOptions ++= List("-encoding", "utf8", "-deprecation", "-feature", "-unchecked")
 ThisBuild / javacOptions ++= List("-Xlint:unchecked", "-Xlint:deprecation", "-Werror")
 
-PlayKeys.externalizeResourcesExcludes += baseDirectory.value / "conf" / "META-INF" / "persistence.xml"
+PlayKeys.externalizeResources := false
+//PlayKeys.externalizeResourcesExcludes += baseDirectory.value / "conf" / "META-INF" / "persistence.xml"
