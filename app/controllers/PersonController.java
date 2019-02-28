@@ -1,15 +1,20 @@
 package controllers;
 
 import models.OrderRepository;
-import play.data.FormFactory;
+import models.Orders;
+import models.Transaction;
+import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.concurrent.CompletionStage;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static play.libs.Json.toJson;
 
@@ -20,26 +25,28 @@ import static play.libs.Json.toJson;
  */
 public class PersonController extends Controller {
 
-    private final FormFactory formFactory;
     private final OrderRepository personRepository;
     private final HttpExecutionContext ec;
 
     @Inject
-    public PersonController(FormFactory formFactory, OrderRepository personRepository, HttpExecutionContext ec) {
-        this.formFactory = formFactory;
+    public PersonController(OrderRepository personRepository, HttpExecutionContext ec) {
         this.personRepository = personRepository;
         this.ec = ec;
     }
 
-    public Result index(final Http.Request request) {
-        return ok();
-    }
+    public CompletionStage<Result> index() {
 
-
-    public CompletionStage<Result> getPersons() {
         return personRepository
                 .list()
-                .thenApplyAsync(personStream -> ok(toJson(personStream.collect(Collectors.toList()))), ec.current());
+                .thenApplyAsync(personStream -> {
+                    List<Orders> orders = personStream.collect(Collectors.toList());
+                    for (Orders order : orders) {
+                        for (Transaction t : order.getTransactions()) {
+                            System.out.println(t.getTransactionCode());
+                        }
+                    }
+                    return ok("SUCCESS");
+                }, ec.current());
     }
 
 }
