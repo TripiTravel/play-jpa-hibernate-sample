@@ -1,5 +1,6 @@
 package controllers;
 
+import models.OrderItem;
 import models.OrderRepository;
 import models.Orders;
 import models.Transaction;
@@ -43,6 +44,9 @@ public class PersonController extends Controller {
                     for (Orders order : orders) {
                         for (Transaction t : order.getTransactions()) {
                             System.out.println(t.getTransactionCode());
+                        }
+                        for (OrderItem oi : order.getOrderItems()) {
+                            System.out.println(oi.getProductType());
                         }
                     }
                     return ok("SUCCESS");

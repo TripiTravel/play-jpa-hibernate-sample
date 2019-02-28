@@ -2,6 +2,8 @@ package models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +18,11 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Transaction.class, mappedBy = "orders")
-    private List<Transaction> transactions;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(targetEntity = OrderItem.class, mappedBy = "orders")
+    private Set<OrderItem> orderItems;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(targetEntity = Transaction.class, mappedBy = "orders")
+    private Set<Transaction> transactions;
 }
