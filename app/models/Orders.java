@@ -10,8 +10,11 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = OrderItem.class, mappedBy = "orders")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = OrderItem.class, mappedBy = "orders")
     private List<OrderItem> orderItems;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = OrderItem.class, mappedBy = "orders")
+    private List<Transaction> transactions;
 
     public Long getId() {
         return id;

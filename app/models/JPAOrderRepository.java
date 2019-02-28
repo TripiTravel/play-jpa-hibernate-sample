@@ -46,7 +46,7 @@ public class JPAOrderRepository implements OrderRepository {
 
     private Stream<Orders> list(EntityManager em) {
         List<Orders> persons = em.createQuery("select o from orders o " +
-                "join orders_items oi on oi.orderId = o.id " +
+                "join transactions s on s.orderId = o.id " +
                 "where o.id > 749767", Orders.class).getResultList();
         return persons.stream();
     }
